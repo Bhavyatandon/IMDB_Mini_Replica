@@ -1,17 +1,22 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { BASE_IMG_URL,API_KEY} from '../util';
 
-const API_KEY = 'da04e034f4479f3d9a9eee8b9c0ae413';
 const Banner = () => {
 
-  const[trendingMov,setTrendingMovies]=useState([]);
+  const [bannerMovie, setBannerMovie] = useState("");
+  const [bannerMovieImg, setBannerMovieImg] = useState("");
+
 
   useEffect(() => {
     async function fetchTrendingMovies() {
       try {
         const response = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`)
-       console.log("Fetched Data:", response.data.results);
-       setTrendingMovies(response.data.results);
+        console.log("Fetched Data:", response.data.results);
+        const list = response.data?.results[0];
+        setBannerMovie(list.original_title);
+        setBannerMovieImg(`${BASE_IMG_URL}${list.backdrop_path}`);
+
       }
       catch (error) {
         console.log('Error', error);
@@ -25,11 +30,11 @@ const Banner = () => {
     <div
       className='h-[50vh] bg-cover bg-center flex justify-center items-end'
       style={{
-        backgroundImage: 'url(https://tse2.mm.bing.net/th/id/OIP.2x-nTebnrKtCMCPIcqyiFQHaE7?pid=Api&P=0&h=180)'
+        backgroundImage: `url(${bannerMovieImg})`
       }}>
       <div
         className='text-white text-3xl text-center font-bold'>
-        Nature</div>
+        {bannerMovie}</div>
     </div>
   )
 }
