@@ -6,6 +6,7 @@ import { BASE_IMG_URL, API_KEY } from '../util';
 const Movies = () => {
     const [movies, setMovies] = useState([])
     const [pageNo, setPageNo] = useState(1);
+    const [watchList, setWatchList] = useState([]);
 
     useEffect(() => {
         async function fetchMovies() {
@@ -23,7 +24,26 @@ const Movies = () => {
         fetchMovies();
     }, [pageNo]);
 
+    const addToWatchList = (moviesObj) => {
+        const updateList = [...watchList, moviesObj];
+        setWatchList(updateList);
 
+    }    
+    
+    const removeFromWatchList = (moviesObj) => {
+       const filteredMovies = watchList.filter((movie) => movie.id !== moviesObj.id)
+       setWatchList(filteredMovies);
+       return;
+    }
+
+    function IsPresentInWatchList(moviesObj) {
+        for (let i = 0; i < watchList.length; i++) {
+            if (watchList[i].id === moviesObj.id) {
+                return true; // show tick icon
+            }
+        }
+        return false; //show plus icon
+    }
 
     const handlePrev = () => {
         if (pageNo === 1) return;
@@ -55,10 +75,17 @@ const Movies = () => {
                                 backgroundImage: `url(${BASE_IMG_URL}${moviesObj.poster_path})`
                             }}>
                             {/* WATCHLIST       */}
-                            <button className="absolute  left-2 bg-black
-                             text-white text-2xl p-1 rounded-md hover:bg-gray-700">
-                                +
-                            </button>
+                            {IsPresentInWatchList(moviesObj) ?
+                                (<button className="absolute  left-2 bg-black
+                             text-white text-2xl p-1 rounded-md hover:bg-gray-700" onClick={() => removeFromWatchList(moviesObj)}>
+                                   ✓ 
+                                </button>) :
+                                (
+                                    <button className="absolute  left-2 bg-black
+                             text-white text-2xl p-1 rounded-md hover:bg-gray-700" onClick={() => addToWatchList(moviesObj)}>
+                                        +
+                                    </button>
+                                )}
 
                         </div>
                         {/* IMDB RATING & RATE */}
@@ -77,14 +104,14 @@ const Movies = () => {
                 ))}
             </div>
 
-            <div className='h-[5vh] w-full p-2 m-6 bg-gray-200 flex justify-center gap-3'>
+            <div className='h-[5vh] w-full p-2 m-6 bg-gray-400 rounded-xl flex items-center justify-center gap-3'>
                 <span onClick={handlePrev}
-                    className='cursor-pointer p-3'>
+                    className='cursor-pointer'>
                     <i className="fa-solid fa-arrow-left"></i>
                 </span>
-                <span>{pageNo}</span>
+                <span >{pageNo}</span>
                 <span onClick={handleNext}
-                    className='cursor-pointer p-3'>
+                    className='cursor-pointer'>
                     <i className="fa-solid fa-arrow-right"></i>
                 </span>
             </div>
