@@ -28,7 +28,7 @@ const Banner = () => {
 
   return (
     <div
-      className='h-[50vh] bg-cover bg-center flex justify-center items-end'
+      className='h-[80vh] bg-cover bg-center rounded-2xl flex justify-center items-end'
       style={{
         backgroundImage: `url(${bannerMovieImg})`
       }}>

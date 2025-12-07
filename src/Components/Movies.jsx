@@ -10,6 +10,15 @@ const Movies = () => {
     const [watchList, setWatchList] = useState([]);
 
     useEffect(() => {
+        const watchListFromLocalStorage = localStorage.getItem('watchListMovies');
+        if (watchListFromLocalStorage) {
+            setWatchList(JSON.parse(watchListFromLocalStorage));
+        }
+
+
+    }, []);
+
+    useEffect(() => {
         async function fetchMovies() {
             try {
                 const response = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&page=${pageNo}`)
@@ -28,16 +37,19 @@ const Movies = () => {
     const addToWatchList = (moviesObj) => {
         const updateList = [...watchList, moviesObj];
         setWatchList(updateList);
+        localStorage.setItem('watchListMovies', JSON.stringify(updateList));
 
     }
 
     const removeFromWatchList = (moviesObj) => {
         const filteredMovies = watchList.filter((movie) => movie.id !== moviesObj.id)
         setWatchList(filteredMovies);
+        localStorage.setItem('watchListMovies', JSON.stringify(filteredMovies));
+
         return;
     }
 
-   
+
 
     const handlePrev = () => {
         if (pageNo === 1) return;
@@ -61,7 +73,7 @@ const Movies = () => {
                         <MovieCard
                             moviesObj={moviesObj}
                             addToWatchList={addToWatchList}
-                            removeFromWatchList={removeFromWatchList} 
+                            removeFromWatchList={removeFromWatchList}
                             watchList={watchList} />
                     </>
                 ))}
