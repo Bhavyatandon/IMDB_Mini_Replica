@@ -11,13 +11,29 @@ const Watchlist = () => {
     }
   }, []);
 
+  function handleAscRatings()
+  {
+    const sortAscMovies= watchlist.sort((a,b)=>a.vote_average-b.vote_average)
+    return setWatchList([...sortAscMovies]) 
+  }
+   function handleDescRatings()
+  {
+    const sortDescMovies= watchlist.sort((a,b)=>b.vote_average-a.vote_average)
+    return setWatchList([...sortDescMovies]) 
+  }
+
   return (
     <div>
       <table className='w-full border border-gray-200 shadow-lg m-3 rounded-lg'>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Rating</th>
+            <th>Name</th>            
+            <th>
+              <i class="fa-solid fa-arrow-up" onClick={handleAscRatings}></i>
+              <span className='p-2'>Rating</span>
+              <i class="fa-solid fa-arrow-down" onClick={handleDescRatings}></i>
+              </th>
+            
             <th>Popularity</th>
             <th>Genre</th>
           </tr>
