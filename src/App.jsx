@@ -7,19 +7,20 @@ import Home from './Components/Home'
 import Navbar from './Components/Navbar'
 import Watchlist from './Components/Watchlist'
 
+import MovieContextWrapper from './context/MovieContext'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
+    <MovieContextWrapper>
     <Navbar />
     <Routes>
       <Route path='/' element={<div>{<Home />}</div>} />
       <Route path='/watchlist' element={<div>{<Watchlist />}</div>} />
       
     </Routes>
-    </>
+    </MovieContextWrapper>
   )
 }
 

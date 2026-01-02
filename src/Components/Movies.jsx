@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { API_KEY } from '../util';
 import MovieCard from './MovieCard'
+import { MovieContext } from '../context/MovieContext';
 
 
 const Movies = () => {
     const [movies, setMovies] = useState([])
     const [pageNo, setPageNo] = useState(1);
-    const [watchList, setWatchList] = useState([]);
-
-    useEffect(() => {
-        const watchListFromLocalStorage = localStorage.getItem('watchListMovies');
-        if (watchListFromLocalStorage) {
-            setWatchList(JSON.parse(watchListFromLocalStorage));
-        }
+   // const [watchList, setWatchList] = useState([]);
 
 
-    }, []);
+    // useEffect(() => {
+    //     const watchListFromLocalStorage = localStorage.getItem('watchListMovies');
+    //     if (watchListFromLocalStorage) {
+    //         setWatchList(JSON.parse(watchListFromLocalStorage));
+    //     }
+
+
+    // }, []);
+
+    const {addToWatchList, removeFromWatchList, watchlist, setWatchList} = useContext(MovieContext)
+
 
     useEffect(() => {
         async function fetchMovies() {
@@ -34,20 +39,20 @@ const Movies = () => {
         fetchMovies();
     }, [pageNo]);
 
-    const addToWatchList = (moviesObj) => {
-        const updateList = [...watchList, moviesObj];
-        setWatchList(updateList);
-        localStorage.setItem('watchListMovies', JSON.stringify(updateList));
+    // const addToWatchList = (moviesObj) => {
+    //     const updateList = [...watchList, moviesObj];
+    //     setWatchList(updateList);
+    //     localStorage.setItem('watchListMovies', JSON.stringify(updateList));
 
-    }
+    // }
 
-    const removeFromWatchList = (moviesObj) => {
-        const filteredMovies = watchList.filter((movie) => movie.id !== moviesObj.id)
-        setWatchList(filteredMovies);
-        localStorage.setItem('watchListMovies', JSON.stringify(filteredMovies));
+    // const removeFromWatchList = (moviesObj) => {
+    //     const filteredMovies = watchList.filter((movie) => movie.id !== moviesObj.id)
+    //     setWatchList(filteredMovies);
+    //     localStorage.setItem('watchListMovies', JSON.stringify(filteredMovies));
 
-        return;
-    }
+    //     return;
+    // }
 
 
 
@@ -74,7 +79,7 @@ const Movies = () => {
                             moviesObj={moviesObj}
                             addToWatchList={addToWatchList}
                             removeFromWatchList={removeFromWatchList}
-                            watchList={watchList} />
+                            watchlist={watchlist} />
                     </>
                 ))}
             </div>

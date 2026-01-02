@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useContext } from 'react'
 import { BASE_IMG_URL, GENREIDs,ALL_GENRES } from '../util';
+import { MovieContext } from '../context/MovieContext';
 
 const Watchlist = () => {
-  const [watchlist, setWatchList] = useState([]);
+ // const [watchlist, setWatchList] = useState([]);
   const [search, setSearch] = useState('');
   const [genrelist, setGenreList] = useState([]);
   const [currgenre, setCurrGenre] = useState(ALL_GENRES);
 
-  useEffect(() => {
-    const watchListFromLocalStorage = localStorage.getItem('watchListMovies');
-    if (watchListFromLocalStorage) {
-      setWatchList(JSON.parse(watchListFromLocalStorage));
-    }
-  }, []);
+  const {removeFromWatchList, watchlist, setWatchList} = useContext(MovieContext)
+  
+  // useEffect(() => {
+  //   const watchListFromLocalStorage = localStorage.getItem('watchListMovies');
+  //   if (watchListFromLocalStorage) {
+  //     setWatchList(JSON.parse(watchListFromLocalStorage));
+  //   }
+  // }, []);
 
   useEffect(() => {
     const relevantGenreList = watchlist.map((moviesObj) => moviesObj.genre_ids)
@@ -43,13 +46,13 @@ const Watchlist = () => {
     setCurrGenre(selectedgenre);
   }
 
-  const removeFromWatchList = (moviesObj) => {
-        const filteredMovies = watchlist.filter((movie) => movie.id !== moviesObj.id)
-        setWatchList(filteredMovies);
-        localStorage.setItem('watchListMovies', JSON.stringify(filteredMovies));
+  // const removeFromWatchList = (moviesObj) => {
+  //       const filteredMovies = watchlist.filter((movie) => movie.id !== moviesObj.id)
+  //       setWatchList(filteredMovies);
+  //       localStorage.setItem('watchListMovies', JSON.stringify(filteredMovies));
 
-        return;
-    }
+  //       return;
+  //   }
 
 
   return (

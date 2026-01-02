@@ -2,10 +2,10 @@ import React from 'react'
 import { BASE_IMG_URL } from '../util'
 
 const MovieCard = (props) => {
-    const { moviesObj, addToWatchList, removeFromWatchList, watchList } = props;
+    const { moviesObj, addToWatchList, removeFromWatchList, watchlist } = props;
      function IsPresentInWatchList(moviesObj) {
-        for (let i = 0; i < watchList.length; i++) {
-            if (watchList[i].id === moviesObj.id) {
+        for (let i = 0; i < watchlist.length; i++) {
+            if (watchlist[i].id === moviesObj.id) {
                 return true; // show tick icon
             }
         }
