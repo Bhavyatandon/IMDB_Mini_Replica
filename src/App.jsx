@@ -13,11 +13,10 @@ function App() {
 
   return (
     <>
-    <h1 className='text-3xl font-bold bg-sky-100'>Hello</h1>
     <Navbar />
     <Routes>
-      <Route path='/' element={<div>Home page loaded {<Home />}</div>} />
-      <Route path='/watchlist' element={<div>Watchlist page loaded {<Watchlist />}</div>} />
+      <Route path='/' element={<div>{<Home />}</div>} />
+      <Route path='/watchlist' element={<div>{<Watchlist />}</div>} />
       
     </Routes>
     </>
